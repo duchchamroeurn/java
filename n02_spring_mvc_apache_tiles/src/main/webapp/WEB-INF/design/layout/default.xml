@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+  	<definition name="default.1column" template="/WEB-INF/design/template/default/1column.jsp">
+	    <put-attribute name="default.head" value="/WEB-INF/design/template/default/head.jsp" />
+	    <put-attribute name="default.header" value="/WEB-INF/design/template/default/header.jsp" />
+	    <put-attribute name="default.menu" value="/WEB-INF/design/template/default/menu.jsp" />
+	    <put-attribute name="default.footer" value="/WEB-INF/design/template/default/footer.jsp" />
+	</definition>
+  
+</tiles-definitions>

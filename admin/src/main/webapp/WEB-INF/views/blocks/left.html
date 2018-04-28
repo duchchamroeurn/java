@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+</head>
+
+<body>
+
+	<nav class="navbar-default navbar-static-side" role="navigation" th:fragment="left">
+	
+		<script th:src="@{/blocks/left.js}"></script>
+
+		<div class="sidebar-collapse">
+			<ul class="nav metismenu" id="side-menu">
+				<li class="nav-header">
+					<div class="dropdown profile-element">
+						<span> <img alt="image" class="img-circle" th:src="@{/img/profile_small.jpg}" />
+						</span> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
+							</span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
+						</span>
+						</a>
+						<ul class="dropdown-menu animated fadeInRight m-t-xs">
+							<li><a href="profile.html">Profile</a></li>
+							<li><a href="contacts.html">Contacts</a></li>
+							<li><a href="mailbox.html">Mailbox</a></li>
+							<li class="divider"></li>
+							<li><a href="javascript:logout()">Logout</a></li>
+						</ul>
+					</div>
+					<div class="logo-element">IN+</div>
+				</li>
+				<li><a th:href="@{/admin/index.html}" class="btn-menu" menu-family="index"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a></li>
+				<li><a href="#"><i class="fa fa-shopping-cart"></i> <span class="nav-label">E-commerce</span><span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level collapse">
+						<li><a th:href="@{/admin/product_list.html}" class="btn-menu" menu-family="product_list,product_grid,product_add,product_edit,product_detail">Product</a></li>
+						<li><a th:href="@{/admin/category_list.html}" class="btn-menu" menu-family="category_list,category_add,category_edit,category_detail">Category</a></li>
+						<li><a th:href="@{/admin/tag_list.html}" class="btn-menu" menu-family="tag_list,tag_add,tag_edit,tag_detail">Tag</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		
+	</nav>
+
+</body>
+
+</html>

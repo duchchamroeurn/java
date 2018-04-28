@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+</head>
+
+<body>
+
+	<div id="page-wrapper" class="gray-bg" th:fragment="product_edit">
+	
+    	<!-- Sumernote -->
+    	<link th:href="@{/css/plugins/summernote/summernote.css}" rel="stylesheet" />
+		<link th:href="@{/css/plugins/summernote/summernote-bs3.css}" rel="stylesheet" />
+		<script th:src="@{/js/plugins/summernote/summernote.min.js}"></script>
+		
+		<!-- Datepicker -->
+		<link th:href="@{/css/plugins/datapicker/datepicker3.css}" rel="stylesheet" />
+		<script th:src="@{/js/plugins/datapicker/bootstrap-datepicker.js}"></script>
+		
+		<!-- Sweet alert -->
+		<link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet" />
+    	<script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}"></script>
+    	
+    	<!-- Cropper -->
+		<link th:href="@{/css/plugins/cropper/cropper.min.css}" rel="stylesheet" />
+		<script th:src="@{/js/plugins/cropper/cropper.min.js}"></script>
+		<script th:src="@{/js/plugins/canvas-to-blob/canvas-to-blob.min.js}"></script>
+		
+		<!-- Individual page scripts -->
+		<script th:src="@{/pages/product_edit.js}"></script>
+		
+		<script type="text/template" id="template-tr-img">
+		<tr>
+			<td><img class="photo-thumbnail" rel="{rel}" src="{imgSrc}" style="width: 100px;" product-image-id="{productImageId}" /></td>
+			<td><input type="text" class="form-control" disabled value="{imgUrl}" /></td>
+			<td><input type="text" class="form-control" value="{imgSortOrder}" /></td>
+			<td>
+				<button class="btn btn-white btn-img-delete">
+					<i class="fa fa-trash"></i>
+				</button>
+			</td>
+		</tr>
+		</script>
+	
+		<div th:replace="blocks/header :: header"></div>
+		
+		<div class="row wrapper border-bottom white-bg page-heading">
+			<div class="col-lg-8">
+				<h2>Product edit</h2>
+				<ol class="breadcrumb">
+					<li><a th:href="@{/admin/index.html}">Home</a></li>
+					<li><a th:href="@{/admin/product_list.html}">Product list</a></li>
+					<li class="active"><strong>Product edit</strong></li>
+				</ol>
+			</div>
+			<div class="col-lg-4">
+	            <div class="title-action">
+	                <a href="#" id="btn-save" class="btn btn-primary"><i class="fa fa-save"></i> Save </a>
+	            </div>
+	        </div>
+		</div>
+		
+		<form id="form" method="" action="">
+		<input type="hidden" id="_csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+		<input type="hidden" id="product-id" name="productId" th:value="${productId}" />
+		<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="tabs-container">
+						<ul class="nav nav-tabs">
+							<li class="active"><a data-toggle="tab" href="#tab-1"> Product info</a></li>
+							<li class=""><a data-toggle="tab" href="#tab-2"> Data</a></li>
+							<li class=""><a data-toggle="tab" href="#tab-3"> Discount</a></li>
+							<li class=""><a data-toggle="tab" href="#tab-4"> Images</a></li>
+						</ul>
+						<div class="tab-content">
+							<div id="tab-1" class="tab-pane active">
+								<div class="panel-body">
+
+									<fieldset class="form-horizontal">
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Name:</label>
+											<div class="col-sm-10">
+												<input type="text" id="name" name="name" class="form-control" placeholder="Product name">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Price:</label>
+											<div class="col-sm-10">
+												<input type="number" id="price" name="price" class="form-control" placeholder="0.00">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Description:</label>
+											<div class="col-sm-10">
+												<div id="description" class="summernote">
+													
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Meta Tag Title:</label>
+											<div class="col-sm-10">
+												<input type="text" id="meta_tag_title" name="metaTagTitle" class="form-control" placeholder="">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Meta Tag Description:</label>
+											<div class="col-sm-10">
+												<input type="text" id="meta_tag_description" name="metaTagDescription" class="form-control" placeholder="">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Meta Tag Keywords:</label>
+											<div class="col-sm-10">
+												<input type="text" id="meta_tag_keywords" name="metaTagKeywords" class="form-control" placeholder="">
+											</div>
+										</div>
+									</fieldset>
+								</div>
+							</div>
+							<div id="tab-2" class="tab-pane">
+								<div class="panel-body">
+
+									<fieldset class="form-horizontal">
+										<div class="form-group">
+											<label class="col-sm-2 control-label">ID:</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" placeholder="543">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Model:</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" placeholder="...">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Location:</label>
+											<div class="col-sm-10">
+												<input type="text" id="location" name="location" class="form-control" placeholder="location">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Tax Class:</label>
+											<div class="col-sm-10">
+												<select class="form-control">
+													<option>option 1</option>
+													<option>option 2</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Quantity:</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" placeholder="Quantity">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Minimum quantity:</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" placeholder="2">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Sort order:</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" placeholder="0">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Status:</label>
+											<div class="col-sm-10">
+												<select class="form-control">
+													<option>option 1</option>
+													<option>option 2</option>
+												</select>
+											</div>
+										</div>
+									</fieldset>
+								</div>
+							</div>
+							<div id="tab-3" class="tab-pane">
+								<div class="panel-body">
+									<div class="table-responsive">
+										<table class="table table-stripped table-bordered">
+											<thead>
+												<tr>
+													<th>Group</th>
+													<th>Quantity</th>
+													<th>Discount</th>
+													<th style="width: 20%">Date start</th>
+													<th style="width: 20%">Date end</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td><select class="form-control">
+															<option selected>Group 1</option>
+															<option>Group 2</option>
+															<option>Group 3</option>
+															<option>Group 4</option>
+													</select></td>
+													<td><input type="text" class="form-control" placeholder="10"></td>
+													<td><input type="text" class="form-control" placeholder="$10.00"></td>
+													<td>
+														<div class="input-group date">
+															<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">
+														</div>
+													</td>
+													<td>
+														<div class="input-group date">
+															<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">
+														</div>
+													</td>
+													<td>
+														<button class="btn btn-white">
+															<i class="fa fa-trash"></i>
+														</button>
+													</td>
+												</tr>
+												<tr>
+													<td><select class="form-control">
+															<option selected>Group 1</option>
+															<option>Group 2</option>
+															<option>Group 3</option>
+															<option>Group 4</option>
+													</select></td>
+													<td><input type="text" class="form-control" placeholder="10"></td>
+													<td><input type="text" class="form-control" placeholder="$10.00"></td>
+													<td>
+														<div class="input-group date">
+															<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">
+														</div>
+													</td>
+													<td>
+														<div class="input-group date">
+															<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">
+														</div>
+													</td>
+													<td>
+														<button class="btn btn-white">
+															<i class="fa fa-trash"></i>
+														</button>
+													</td>
+												</tr>
+												<tr>
+													<td><select class="form-control">
+															<option selected>Group 1</option>
+															<option>Group 2</option>
+															<option>Group 3</option>
+															<option>Group 4</option>
+													</select></td>
+													<td><input type="text" class="form-control" placeholder="10"></td>
+													<td><input type="text" class="form-control" placeholder="$10.00"></td>
+													<td>
+														<div class="input-group date">
+															<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">
+														</div>
+													</td>
+													<td>
+														<div class="input-group date">
+															<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">
+														</div>
+													</td>
+													<td>
+														<button class="btn btn-white">
+															<i class="fa fa-trash"></i>
+														</button>
+													</td>
+												</tr>
+												<tr>
+													<td><select class="form-control">
+															<option selected>Group 1</option>
+															<option>Group 2</option>
+															<option>Group 3</option>
+															<option>Group 4</option>
+													</select></td>
+													<td><input type="text" class="form-control" placeholder="10"></td>
+													<td><input type="text" class="form-control" placeholder="$10.00"></td>
+													<td>
+														<div class="input-group date">
+															<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">
+														</div>
+													</td>
+													<td>
+														<div class="input-group date">
+															<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">
+														</div>
+													</td>
+													<td>
+														<button class="btn btn-white">
+															<i class="fa fa-trash"></i>
+														</button>
+													</td>
+												</tr>
+												<tr>
+													<td><select class="form-control">
+															<option selected>Group 1</option>
+															<option>Group 2</option>
+															<option>Group 3</option>
+															<option>Group 4</option>
+													</select></td>
+													<td><input type="text" class="form-control" placeholder="10"></td>
+													<td><input type="text" class="form-control" placeholder="$10.00"></td>
+													<td>
+														<div class="input-group date">
+															<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">
+														</div>
+													</td>
+													<td>
+														<div class="input-group date">
+															<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">
+														</div>
+													</td>
+													<td>
+														<button class="btn btn-white">
+															<i class="fa fa-trash"></i>
+														</button>
+													</td>
+												</tr>
+												<tr>
+													<td><select class="form-control">
+															<option selected>Group 1</option>
+															<option>Group 2</option>
+															<option>Group 3</option>
+															<option>Group 4</option>
+													</select></td>
+													<td><input type="text" class="form-control" placeholder="10"></td>
+													<td><input type="text" class="form-control" placeholder="$10.00"></td>
+													<td>
+														<div class="input-group date">
+															<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">
+														</div>
+													</td>
+													<td>
+														<div class="input-group date">
+															<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">
+														</div>
+													</td>
+													<td>
+														<button class="btn btn-white">
+															<i class="fa fa-trash"></i>
+														</button>
+													</td>
+												</tr>
+												<tr>
+													<td><select class="form-control">
+															<option selected>Group 1</option>
+															<option>Group 2</option>
+															<option>Group 3</option>
+															<option>Group 4</option>
+													</select></td>
+													<td><input type="text" class="form-control" placeholder="10"></td>
+													<td><input type="text" class="form-control" placeholder="$10.00"></td>
+													<td>
+														<div class="input-group date">
+															<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">
+														</div>
+													</td>
+													<td>
+														<div class="input-group date">
+															<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">
+														</div>
+													</td>
+													<td>
+														<button class="btn btn-white">
+															<i class="fa fa-trash"></i>
+														</button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<div id="tab-4" class="tab-pane">
+								<div class="panel-body">
+									<div class="row">
+			                            <div class="col-md-6">
+			                                <div class="image-crop">
+			                                    <img th:src="@{/img/p3.jpg}" />
+			                                </div>
+			                            </div>
+			                            <div class="col-md-6">
+			                                <h4>Preview image</h4>
+			                                <div class="img-preview img-preview-sm"></div>
+			                                <br />
+											<div class="btn-group">
+			                                    <div class="btn-group">
+			                                    	<label class="btn btn-primary" for="inputImage" title="Upload image file"> 
+														<input type="file" accept="image/*" name="file" id="inputImage" class="hide" />
+														<span class="glyphicon glyphicon-upload"></span>
+													</label>
+													<button id="zoomIn" class="btn btn-primary" data-method="zoom" data-option="0.1" type="button" title="Zoom In">
+														<span class="glyphicon glyphicon-zoom-in"></span>
+													</button>
+													<button id="zoomOut" class="btn btn-primary" data-method="zoom" data-option="-0.1" type="button" title="Zoom Out">
+														<span class="glyphicon glyphicon-zoom-out"></span>
+													</button>
+													<button id="rotateLeft" class="btn btn-primary" data-method="rotate" data-option="-90" type="button" title="Rotate Left">
+														<span class="glyphicon glyphicon-share-alt fa-flip-horizontal"></span>
+													</button>
+													<button id="rotateRight" class="btn btn-primary" data-method="rotate" data-option="90" type="button" title="Rotate Right">
+														<span class="glyphicon glyphicon-share-alt"></span>
+													</button>
+													<button id="setDragModeMove" class="btn btn-primary" data-method="setDragMode" data-option="move" type="button" title="Move">
+														<span class="glyphicon glyphicon-move"></span>
+													</button>
+													<button id="setDragModeCrop" class="btn btn-primary" data-method="setDragMode" data-option="crop" type="button" title="Crop">
+														<span class="glyphicon glyphicon-plus"></span>
+													</button>
+												</div>
+			                                </div>
+			                                <br />
+			                                <br />
+			                                <div class="btn-group">
+			                                    <label title="Donload image" id="download" class="btn btn-primary">Download</label>
+			                                </div>
+			                            </div>
+			                        </div>
+			                        <br />
+									<div id="tbl-product-images" class="table-responsive">
+										<table class="table table-bordered table-stripped">
+											<thead>
+												<tr>
+													<th>Image preview</th>
+													<th>Image url</th>
+													<th>Sort order</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+											<tbody>
+												
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</form>
+		
+		<div th:replace="blocks/footer :: footer"></div>
+
+	</div>
+
+</body>
+
+</html>

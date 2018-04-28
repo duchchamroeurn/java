@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sangkhim.spring.mapper.ProductMapper">
+	
+	<sql id="searchConditionSQL">
+		<foreach item="item" index="index" collection="searchBy" open=" " separator=" " close=" ">
+			<if test="item != null or item != '' ">
+				<choose>
+					<when test="item == 'name' ">
+						AND ${item} LIKE CONCAT("%", "${searchKeyword[index]}", "%")
+					</when>
+					<when test="item == 'price' ">
+						AND ${item} = ${searchKeyword[index]}
+					</when>
+					<when test="item == 'is_online' ">
+						AND ${item} = ${searchKeyword[index]}
+					</when>
+					<otherwise>
+						
+					</otherwise>
+				</choose>
+			</if>
+        </foreach>
+	</sql>
+	
+	<sql id="orderBySQL">
+		ORDER BY
+			<foreach item="item" index="index" collection="sortColumn" open=" " separator="," close=" ">
+				${item} ${sortDir[index]}
+	        </foreach>
+	</sql>
+	
+	<sql id="limitSQL">
+		<if test="start != null and length != null">
+			LIMIT #{start}, #{length}
+		</if>
+	</sql>
+	
+	<sql id="selectListSQL">
+		SELECT *
+		FROM products		
+		WHERE is_active = 1
+	</sql>	
+	
+	<select id="getList" resultMap="product">
+		<include refid="selectListSQL"></include>		
+		<include refid="orderBySQL"></include>
+		<include refid="limitSQL"></include>
+	</select>
+	
+	<select id="getListCount" resultType="Long">
+		SELECT 
+			COUNT(product_id)		
+		FROM 
+			(
+				<include refid="selectListSQL"></include>
+			) products
+	</select>
+	
+	<select id="getSearchList" resultMap="product">
+		<include refid="selectListSQL"></include>
+		<include refid="searchConditionSQL"></include>
+		<include refid="orderBySQL"></include>
+		<include refid="limitSQL"></include>
+	</select>
+	
+	<select id="getSearchListCount" resultType="Long">
+		SELECT 
+			COUNT(product_id)		
+		FROM 
+			(
+				<include refid="selectListSQL"></include>
+				<include refid="searchConditionSQL"></include>
+			) products
+	</select>
+
+</mapper>

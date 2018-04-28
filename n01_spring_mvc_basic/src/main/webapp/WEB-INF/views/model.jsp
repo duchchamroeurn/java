@@ -1,0 +1,1 @@
+<h1>Data from model: ${id}</h1>

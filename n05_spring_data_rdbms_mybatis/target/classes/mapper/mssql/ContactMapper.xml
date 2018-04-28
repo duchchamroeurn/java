@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sangkhim.spring.mapper.contact.ContactMapper">
+	
+	<select id="getAll" resultType="Contact">
+		SELECT *, LOWER(CONVERT(VARCHAR(32), HashBytes('MD5', email), 2)) AS email_md5
+		FROM contact
+		WHERE is_active=1;
+	</select>
+
+	<select id="getById" resultType="Contact" parameterType="int">
+		SELECT *, LOWER(CONVERT(VARCHAR(32), HashBytes('MD5', email), 2)) AS email_md5
+		FROM contact
+		WHERE is_active=1 AND id = #{id};
+	</select>
+
+	<insert id="insert" parameterType="Contact">
+		INSERT INTO contact(
+			photo,
+			name,
+			city,
+			tel,
+			email,
+			is_active
+		)VALUES(
+			#{photo},
+			#{name},
+			#{city},
+			#{tel},
+			#{email},
+			1
+		);
+	</insert>
+
+	<update id="update" parameterType="Contact">
+		UPDATE contact SET
+			photo = #{photo},
+			name = #{name},
+			city = #{city},
+			tel = #{tel},
+			email = #{email}
+		WHERE id = #{id};
+	</update>
+
+	<update id="deleteById" parameterType="int">
+		UPDATE contact SET 
+			is_active = 0
+		WHERE id = #{id};
+	</update>
+
+</mapper>

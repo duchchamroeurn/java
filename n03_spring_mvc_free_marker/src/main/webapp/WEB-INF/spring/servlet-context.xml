@@ -1,0 +1,55 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<mvc:annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<mvc:resources mapping="/**" location="/resources/" />
+	<mvc:resources mapping="/**" location="file:///${SANGKHIM_HOME}/n03_spring_mvc_free_marker/resources/" />
+
+	<!-- freemarker config -->
+	<bean class="org.springframework.beans.factory.config.MethodInvokingBean">
+	    <property name="targetClass" value="freemarker.log.Logger"/>
+	    <property name="targetMethod" value="selectLoggerLibrary"/>
+	    <property name="arguments">
+		<list>
+		    <value>0</value>
+		</list>
+	    </property>
+	</bean>	
+	<bean id="freemarkerConfiguration" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <!-- <property name="location" value="/WEB-INF/conf/freemarker.properties" /> -->
+        <property name="location" value="file:///${SANGKHIM_HOME}/n03_spring_mvc_free_marker/conf/freemarker.properties" />
+    </bean>
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPaths">
+			<list>
+				<!-- <value>/WEB-INF/views/</value> -->
+				<value>file:#{systemProperties['SANGKHIM_HOME']}/n03_spring_mvc_free_marker/views/</value>
+			</list>
+		</property>
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="freemarkerSettings" ref="freemarkerConfiguration"/>
+	</bean>
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="cache" value="true" />
+		<property name="prefix" value="" />
+		<property name="suffix" value=".ftl" />
+		<property name="contentType" value="text/html;charset=UTF-8" />
+	</bean>
+	
+	<context:component-scan base-package="com.sangkhim" />
+	
+</beans>

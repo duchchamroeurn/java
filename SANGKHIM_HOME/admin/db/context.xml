@@ -1,0 +1,13 @@
+<Resource
+	name="admin"
+	auth="Container"
+	type="javax.sql.DataSource"
+	driverClassName="com.mysql.jdbc.Driver"
+	url="jdbc:mysql://127.0.0.1:3306/admin?characterEncoding=utf-8"
+	username="root"
+	password="123456"
+	validationQuery="SELECT 1"
+	maxActive="10"
+	maxIdle="5"
+	maxWait="-1"
+/>
