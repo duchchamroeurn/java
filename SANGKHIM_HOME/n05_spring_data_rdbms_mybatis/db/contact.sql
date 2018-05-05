@@ -1,4 +1,4 @@
-CREATE TABLE `contact` (
+CREATE TABLE `contacts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `photo` varchar(50) NOT NULL DEFAULT '',
   `name` varchar(50) DEFAULT '',
